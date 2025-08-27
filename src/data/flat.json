@@ -1,0 +1,158 @@
+[
+  {
+    "buildingId": "alaknanda",
+    "blockId": "A1",
+    "buildingName": "Alaknanda Block 1",
+    "flatNo": "101",
+    "bhk": "2BHK",
+    "area": "925 sqft",
+    "bathrooms": 2,
+    "bedrooms": 2,
+    "floor": "15th",
+    "facing": "East",
+    "status": "available",
+    "price": "₹45 Lac",
+    "emi": "₹65,437",
+    "location": "Noida Expressway, Sector 137",
+    "highlights": [
+      "Spacious Living Room",
+      "Modern Modular Kitchen",
+      "Balcony with Garden View",
+      "Premium Wooden Flooring"
+    ],
+    "amenities": [
+      "Power Backup",
+      "Reserved Parking",
+      "Lift",
+      "24x7 Security",
+      "CCTV Surveillance",
+      "Clubhouse",
+      "Swimming Pool",
+      "Children’s Play Area"
+    ],
+    "nearby": ["School – 500m", "Hospital – 1km", "Metro – 2km", "Mall – 3km"],
+    "images": [
+      "/map.jpg",
+      "https://via.placeholder.com/600x400?text=Flat+Image+2",
+      "https://via.placeholder.com/600x400?text=Flat+Image+3",
+      "https://via.placeholder.com/600x400?text=Flat+Image+4",
+      "https://via.placeholder.com/600x400?text=Flat+Image+5"
+    ]
+  },
+  {
+    "buildingId": "alaknanda",
+    "blockId": "A1",
+    "buildingName": "Alaknanda Block 1",
+    "flatNo": "102",
+    "bhk": "3BHK",
+    "area": "1250 sqft",
+    "bathrooms": 3,
+    "bedrooms": 3,
+    "floor": "8th",
+    "facing": "West",
+    "status": "sold",
+    "price": "₹65 Lac",
+    "emi": "₹92,000",
+    "location": "Noida Expressway, Sector 137",
+    "highlights": [
+      "Corner Flat with Extra Ventilation",
+      "Italian Marble Flooring",
+      "Smart Home Automation",
+      "Spacious Balcony"
+    ],
+    "amenities": [
+      "Swimming Pool",
+      "Gymnasium",
+      "Clubhouse",
+      "Garden",
+      "Children’s Play Area",
+      "Power Backup",
+      "Reserved Parking",
+      "24x7 Security"
+    ],
+    "nearby": [
+      "IT Park – 1km",
+      "Metro Station – 500m",
+      "Shopping Mall – 1.5km",
+      "Hospital – 2km"
+    ],
+    "images": [
+      "/images/flat102/living1.jpg",
+      "/images/flat102/bedroom1.jpg",
+      "/images/flat102/kitchen1.jpg",
+      "/images/flat102/bathroom1.jpg",
+      "/images/flat102/balcony1.jpg"
+    ]
+  },
+  {
+    "buildingId": "alaknanda",
+    "blockId": "A2",
+    "buildingName": "Alaknanda Block 2",
+    "flatNo": "201",
+    "bhk": "2BHK",
+    "area": "975 sqft",
+    "bathrooms": 2,
+    "bedrooms": 2,
+    "floor": "10th",
+    "facing": "North",
+    "status": "available",
+    "price": "₹48 Lac",
+    "emi": "₹70,000",
+    "location": "Noida Expressway, Sector 137",
+    "highlights": [
+      "Park Facing",
+      "Spacious Balcony",
+      "Modular Kitchen",
+      "Wooden Wardrobes"
+    ],
+    "amenities": [
+      "Lift",
+      "24x7 Security",
+      "Clubhouse",
+      "Swimming Pool",
+      "Children’s Play Area"
+    ],
+    "nearby": ["Metro – 1km", "School – 700m", "Hospital – 1.2km"],
+    "images": [
+      "https://via.placeholder.com/600x400?text=Flat+201+Image+1",
+      "https://via.placeholder.com/600x400?text=Flat+201+Image+2",
+      "https://via.placeholder.com/600x400?text=Flat+201+Image+3"
+    ]
+  },
+  {
+    "buildingId": "alaknanda",
+    "blockId": "A2",
+    "buildingName": "Alaknanda Block 2",
+    "flatNo": "202",
+    "bhk": "3BHK",
+    "area": "1350 sqft",
+    "bathrooms": 3,
+    "bedrooms": 3,
+    "floor": "12th",
+    "facing": "South",
+    "status": "available",
+    "price": "₹72 Lac",
+    "emi": "₹1,05,000",
+    "location": "Noida Expressway, Sector 137",
+    "highlights": [
+      "Corner Flat",
+      "Extra Ventilation",
+      "Smart Home Features",
+      "Premium Marble Flooring"
+    ],
+    "amenities": [
+      "Gymnasium",
+      "Clubhouse",
+      "Garden",
+      "Power Backup",
+      "Reserved Parking",
+      "CCTV Surveillance"
+    ],
+    "nearby": ["IT Park – 500m", "Metro Station – 800m", "Shopping Mall – 1km"],
+    "images": [
+      "https://via.placeholder.com/600x400?text=Flat+202+Image+1",
+      "https://via.placeholder.com/600x400?text=Flat+202+Image+2",
+      "https://via.placeholder.com/600x400?text=Flat+202+Image+3"
+    ]
+  }
+]

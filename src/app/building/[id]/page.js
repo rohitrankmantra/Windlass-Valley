@@ -1,0 +1,171 @@
+"use client";
+import React, { useState, useEffect } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import buildingsData from "@/data/buildings.json";
+import { motion } from "framer-motion";
+import { LiaHomeSolid } from "react-icons/lia";
+
+export default function BuildingPage() {
+  const params = useParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const buildingId = params?.id;
+  const blockQuery = searchParams.get("block"); // 👈 read block from URL
+
+  // ✅ Find building
+  const building = Array.isArray(buildingsData)
+    ? buildingsData.find((b) => String(b.id) === String(buildingId))
+    : buildingsData?.id === buildingId
+    ? buildingsData
+    : null;
+
+  // ❌ Building not found
+  if (!building) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 p-8">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white shadow-2xl rounded-2xl p-10 text-center max-w-md border border-gray-200"
+        >
+          <motion.div
+            initial={{ rotate: -10 }}
+            animate={{ rotate: 10 }}
+            transition={{
+              repeat: Infinity,
+              repeatType: "reverse",
+              duration: 1.5,
+            }}
+            className="flex justify-center mb-4"
+          >
+            <LiaHomeSolid className="text-5xl text-red-500" />
+          </motion.div>
+          <h1 className="text-2xl font-bold text-gray-800">
+            Building Not Found 🚫
+          </h1>
+          <p className="text-gray-600 mt-2">
+            The building you’re looking for doesn’t exist or may have been removed.
+          </p>
+          <button
+            onClick={() => router.push("/")}
+            className="mt-6 px-6 py-2 rounded-full bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold shadow-md hover:scale-105 transition-transform"
+          >
+            🔙 Go Back
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // 🏢 Blocks fallback
+  if (!building.blocks || building.blocks.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-600">
+        No blocks found for this building 🚧
+      </div>
+    );
+  }
+
+  // 🏢 Active Block (default from query if valid, else first block)
+  const [activeBlock, setActiveBlock] = useState(
+    blockQuery && building.blocks.some((b) => b.id === blockQuery)
+      ? blockQuery
+      : building.blocks[0].id
+  );
+
+  // 🔄 Sync state when query param changes
+  useEffect(() => {
+    if (blockQuery && building.blocks.some((b) => b.id === blockQuery)) {
+      setActiveBlock(blockQuery);
+    }
+  }, [blockQuery, building.blocks]);
+
+  const selectedBlock = building.blocks.find((b) => b.id === activeBlock);
+
+  // ✅ Safer display name
+  const displayName = `${building.name} - ${selectedBlock?.name || ""}`;
+
+  return (
+    <div className="min-h-screen p-8 bg-gradient-to-br from-gray-50 via-blue-50 to-green-50">
+      {/* 🏢 Building Name */}
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-4xl font-extrabold bg-gradient-to-r from-blue-600 via-green-500 to-purple-600 bg-clip-text text-transparent drop-shadow-md"
+      >
+        {displayName}
+      </motion.h1>
+
+      {/* 🔹 Block Tabs */}
+      <div className="flex flex-wrap gap-4 mt-6">
+        {building.blocks.map((block) => (
+          <motion.button
+            key={block.id}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              setActiveBlock(block.id);
+              router.push(`?block=${block.id}`, { scroll: false }); // ✅ sync with URL
+            }}
+            className={`px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 
+              ${
+                activeBlock === block.id
+                  ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg"
+                  : "bg-white text-gray-700 border hover:bg-gray-100"
+              }`}
+          >
+            {block.name}
+          </motion.button>
+        ))}
+      </div>
+
+      {/* 🏠 Flats Row */}
+      <div className="flex flex-wrap gap-4 mt-8">
+        {selectedBlock?.flats?.map((flat) => {
+          const isAvailable = flat.status === "available";
+
+          return (
+            <motion.div
+              key={flat.flatNo}
+              whileHover={{ scale: 1.07 }}
+              transition={{ type: "spring", stiffness: 200 }}
+              // ✅ Navigate to /building/:buildingId/:flatNo
+              onClick={() =>
+                router.push(`/building/${buildingId}/${flat.flatNo}`)
+              }
+              className={`cursor-pointer w-28 h-32 flex flex-col items-center justify-center rounded-2xl shadow-lg p-3 transition 
+                ${
+                  isAvailable
+                    ? "bg-green-100 hover:bg-green-200"
+                    : "bg-red-100 hover:bg-red-200 opacity-90"
+                }`}
+            >
+              <div
+                className={`flex items-center justify-center w-16 h-16 rounded-full shadow-md 
+                  ${
+                    isAvailable
+                      ? "bg-gradient-to-br from-green-400 to-green-600"
+                      : "bg-gradient-to-br from-red-400 to-red-600"
+                  }
+                `}
+              >
+                <LiaHomeSolid className="text-white text-2xl" />
+              </div>
+              <span
+                className={`text-sm font-bold mt-2 ${
+                  isAvailable ? "text-green-800" : "text-red-800"
+                }`}
+              >
+                {flat.flatNo}
+              </span>
+              <span className="text-xs text-gray-700">{flat.bhk}</span>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

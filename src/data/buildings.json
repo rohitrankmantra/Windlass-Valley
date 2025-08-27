@@ -1,0 +1,92 @@
+{
+  "id": "alaknanda",
+  "name": "Alaknanda Apartments",
+  "type": "residential",
+  "blocks": [
+    {
+      "id": "A1",
+      "name": "A1",
+      "totalFloors": 10,
+      "flats": [
+        { "flatNo": "101", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "102", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "103", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "104", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "105", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "106", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "107", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "108", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "109", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "110", "status": "sold", "bhk": "3BHK" }
+      ]
+    },
+    {
+      "id": "A2",
+      "name": "A2",
+      "totalFloors": 10,
+      "flats": [
+        { "flatNo": "201", "status": "sold", "bhk": "2BHK" },
+        { "flatNo": "202", "status": "available", "bhk": "3BHK" },
+        { "flatNo": "203", "status": "sold", "bhk": "2BHK" },
+        { "flatNo": "204", "status": "available", "bhk": "3BHK" },
+        { "flatNo": "205", "status": "sold", "bhk": "2BHK" },
+        { "flatNo": "206", "status": "available", "bhk": "3BHK" },
+        { "flatNo": "207", "status": "sold", "bhk": "2BHK" },
+        { "flatNo": "208", "status": "available", "bhk": "3BHK" },
+        { "flatNo": "209", "status": "sold", "bhk": "2BHK" },
+        { "flatNo": "210", "status": "available", "bhk": "3BHK" }
+      ]
+    },
+    {
+      "id": "A3",
+      "name": "A3",
+      "totalFloors": 10,
+      "flats": [
+        { "flatNo": "301", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "302", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "303", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "304", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "305", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "306", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "307", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "308", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "309", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "310", "status": "sold", "bhk": "3BHK" }
+      ]
+    },
+     {
+      "id": "A4",
+      "name": "A4",
+      "totalFloors": 10,
+      "flats": [
+        { "flatNo": "301", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "302", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "303", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "304", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "305", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "306", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "307", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "308", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "309", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "310", "status": "sold", "bhk": "3BHK" }
+      ]
+    },
+     {
+      "id": "A5",
+      "name": "A5",
+      "totalFloors": 10,
+      "flats": [
+        { "flatNo": "301", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "302", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "303", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "304", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "305", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "306", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "307", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "308", "status": "sold", "bhk": "3BHK" },
+        { "flatNo": "309", "status": "available", "bhk": "2BHK" },
+        { "flatNo": "310", "status": "sold", "bhk": "3BHK" }
+      ]
+    }
+  ]
+}
