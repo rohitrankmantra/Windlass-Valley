@@ -120,14 +120,16 @@ export default function BuildingPage() {
           return (
             <motion.div
               key={flat.flatNo}
-              whileHover={{ scale: 1.07 }}
+              whileHover={isAvailable ? { scale: 1.07 } : {}}
               transition={{ type: "spring", stiffness: 200 }}
-              onClick={() => router.push(`/building/${buildingId}/${flat.flatNo}`)}
-              className={`cursor-pointer w-28 h-32 flex flex-col items-center justify-center rounded-2xl shadow-lg p-3 transition 
+              onClick={() =>
+                isAvailable && router.push(`/building/${buildingId}/${flat.flatNo}`)
+              }
+              className={`w-28 h-32 flex flex-col items-center justify-center rounded-2xl shadow-lg p-3 transition 
                 ${
                   isAvailable
-                    ? "bg-green-100 hover:bg-green-200"
-                    : "bg-red-100 hover:bg-red-200 opacity-90"
+                    ? "cursor-pointer bg-green-100 hover:bg-green-200"
+                    : "cursor-not-allowed bg-red-100 opacity-90"
                 }`}
             >
               <div
