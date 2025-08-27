@@ -11,16 +11,30 @@ export default function BuildingPage() {
   const searchParams = useSearchParams();
 
   const buildingId = params?.id;
-  const blockQuery = searchParams.get("block"); // 👈 read block from URL
+  const blockQuery = searchParams.get("block");
 
-  // ✅ Find building
+  // ✅ Find building safely
   const building = Array.isArray(buildingsData)
     ? buildingsData.find((b) => String(b.id) === String(buildingId))
     : buildingsData?.id === buildingId
     ? buildingsData
     : null;
 
-  // ❌ Building not found
+  // ✅ Default active block (safe fallback to null)
+  const [activeBlock, setActiveBlock] = useState(null);
+
+  // ✅ Sync state when query or building changes
+  useEffect(() => {
+    if (building && building.blocks?.length > 0) {
+      if (blockQuery && building.blocks.some((b) => b.id === blockQuery)) {
+        setActiveBlock(blockQuery);
+      } else {
+        setActiveBlock(building.blocks[0].id);
+      }
+    }
+  }, [blockQuery, building]);
+
+  // ⬇️ Conditional rendering only after hooks
   if (!building) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 p-8">
@@ -33,18 +47,12 @@ export default function BuildingPage() {
           <motion.div
             initial={{ rotate: -10 }}
             animate={{ rotate: 10 }}
-            transition={{
-              repeat: Infinity,
-              repeatType: "reverse",
-              duration: 1.5,
-            }}
+            transition={{ repeat: Infinity, repeatType: "reverse", duration: 1.5 }}
             className="flex justify-center mb-4"
           >
             <LiaHomeSolid className="text-5xl text-red-500" />
           </motion.div>
-          <h1 className="text-2xl font-bold text-gray-800">
-            Building Not Found 🚫
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-800">Building Not Found 🚫</h1>
           <p className="text-gray-600 mt-2">
             The building you’re looking for doesn’t exist or may have been removed.
           </p>
@@ -59,7 +67,6 @@ export default function BuildingPage() {
     );
   }
 
-  // 🏢 Blocks fallback
   if (!building.blocks || building.blocks.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-600">
@@ -68,23 +75,7 @@ export default function BuildingPage() {
     );
   }
 
-  // 🏢 Active Block (default from query if valid, else first block)
-  const [activeBlock, setActiveBlock] = useState(
-    blockQuery && building.blocks.some((b) => b.id === blockQuery)
-      ? blockQuery
-      : building.blocks[0].id
-  );
-
-  // 🔄 Sync state when query param changes
-  useEffect(() => {
-    if (blockQuery && building.blocks.some((b) => b.id === blockQuery)) {
-      setActiveBlock(blockQuery);
-    }
-  }, [blockQuery, building.blocks]);
-
   const selectedBlock = building.blocks.find((b) => b.id === activeBlock);
-
-  // ✅ Safer display name
   const displayName = `${building.name} - ${selectedBlock?.name || ""}`;
 
   return (
@@ -108,7 +99,7 @@ export default function BuildingPage() {
             whileTap={{ scale: 0.95 }}
             onClick={() => {
               setActiveBlock(block.id);
-              router.push(`?block=${block.id}`, { scroll: false }); // ✅ sync with URL
+              router.push(`?block=${block.id}`, { scroll: false });
             }}
             className={`px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 
               ${
@@ -126,16 +117,12 @@ export default function BuildingPage() {
       <div className="flex flex-wrap gap-4 mt-8">
         {selectedBlock?.flats?.map((flat) => {
           const isAvailable = flat.status === "available";
-
           return (
             <motion.div
               key={flat.flatNo}
               whileHover={{ scale: 1.07 }}
               transition={{ type: "spring", stiffness: 200 }}
-              // ✅ Navigate to /building/:buildingId/:flatNo
-              onClick={() =>
-                router.push(`/building/${buildingId}/${flat.flatNo}`)
-              }
+              onClick={() => router.push(`/building/${buildingId}/${flat.flatNo}`)}
               className={`cursor-pointer w-28 h-32 flex flex-col items-center justify-center rounded-2xl shadow-lg p-3 transition 
                 ${
                   isAvailable

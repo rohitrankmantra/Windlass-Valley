@@ -16,6 +16,7 @@ import {
   FaEyeSlash,
 } from "react-icons/fa";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 export default function FlatPage() {
   const { id, flatNo } = useParams();
@@ -29,7 +30,9 @@ export default function FlatPage() {
 
   useEffect(() => {
     const foundFlat = flatsData.find(
-      (f) => String(f.buildingId) === String(id) && String(f.flatNo) === String(flatNo)
+      (f) =>
+        String(f.buildingId) === String(id) &&
+        String(f.flatNo) === String(flatNo)
     );
     setFlat(foundFlat);
     if (foundFlat?.images?.length) setMainImage(foundFlat.images[0]);
@@ -102,20 +105,26 @@ export default function FlatPage() {
         <div className="w-[55%]">
           {/* Main Image */}
           <div className="w-full h-[470px] rounded-xl overflow-hidden shadow-2 bg-gray-100 border-4 border-blue-500 flex items-center justify-center">
-            <img
-              src={mainImage}
-              alt="Flat Preview"
-              className="w-full h-full object-cover object-center"
-            />
+            {mainImage && (
+              <Image
+                src={mainImage}
+                alt="Flat Preview"
+                width={800}
+                height={600}
+                className="w-full h-full object-cover object-center"
+              />
+            )}
           </div>
 
           {/* Thumbnails */}
           <div className="grid grid-cols-5 gap-3 mt-4">
             {flat.images?.slice(0, 5).map((img, idx) => (
-              <img
+              <Image
                 key={idx}
                 src={img}
                 alt={`Thumbnail ${idx}`}
+                width={150}
+                height={150}
                 className={`h-20 w-full object-cover object-center rounded-lg cursor-pointer border-2 transition hover:scale-105 ${
                   mainImage === img
                     ? "border-purple-600 shadow-lg"
@@ -138,8 +147,6 @@ export default function FlatPage() {
               <FaMapMarkerAlt className="text-purple-500" /> {flat.location}
             </p>
 
-            
-
             {/* Status */}
             <div className="mb-6">
               {flat.status === "available" ? (
@@ -157,12 +164,18 @@ export default function FlatPage() {
             <div className="grid grid-cols-2 gap-3 mb-6">
               <SpecCard icon={<FaBed />} label="Beds" value={flat.bedrooms} />
               <SpecCard icon={<FaBath />} label="Baths" value={flat.bathrooms} />
-              <SpecCard icon={<FaCouch />} label="Balcony" value={flat.balconies || 1} />
+              <SpecCard
+                icon={<FaCouch />}
+                label="Balcony"
+                value={flat.balconies || 1}
+              />
               <SpecCard label="Furnishing" value={flat.furnishing || "N/A"} />
             </div>
 
             {/* Highlights */}
-            <h2 className="text-lg text-gray-600 font-semibold mb-2">Highlights</h2>
+            <h2 className="text-lg text-gray-600 font-semibold mb-2">
+              Highlights
+            </h2>
             <ul className="list-disc list-inside text-gray-700 space-y-1">
               {flat.highlights?.map((h, idx) => (
                 <li key={idx}>{h}</li>
@@ -180,7 +193,7 @@ export default function FlatPage() {
   );
 }
 
- // ✅ Spec Card Component
+// ✅ Spec Card Component
 function SpecCard({ icon, label, value }) {
   return (
     <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
