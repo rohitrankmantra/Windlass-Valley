@@ -20,7 +20,6 @@ export default function BuildingPage() {
     ? buildingsData
     : null;
 
-  // ✅ Default active block (safe fallback to null)
   const [activeBlock, setActiveBlock] = useState(null);
 
   // ✅ Sync state when query or building changes
@@ -79,7 +78,7 @@ export default function BuildingPage() {
   const displayName = `${building.name} - ${selectedBlock?.name || ""}`;
 
   return (
-    <div className="min-h-screen p-8 bg-gradient-to-br from-gray-50 via-blue-50 to-green-50">
+    <div className="relative min-h-screen p-8 bg-gradient-to-br from-gray-50 via-blue-50 to-green-50">
       {/* 🏢 Building Name */}
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
@@ -155,6 +154,35 @@ export default function BuildingPage() {
           );
         })}
       </div>
+
+      {/* ✅ Legend Box - top-right */}
+{/* ✅ Legend - Top Right (no border box, like client reference) */}
+{/* ✅ Legend - Top Right (single row, bigger icons & text) */}
+<div className="absolute top-8 right-8 flex items-center gap-6 bg-white/70 backdrop-blur-sm px-5 py-2 rounded-full shadow-lg">
+  {/* Available */}
+  <motion.div
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+    className="flex items-center gap-2"
+  >
+    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-green-400 to-green-600 shadow-md" />
+    <span className="text-base font-bold text-gray-800">Available</span>
+  </motion.div>
+
+  {/* Sold */}
+  <motion.div
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.7 }}
+    className="flex items-center gap-2"
+  >
+    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-red-400 to-red-600 shadow-md" />
+    <span className="text-base font-bold text-gray-800">Sold</span>
+  </motion.div>
+</div>
+
+
     </div>
   );
 }
