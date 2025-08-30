@@ -188,7 +188,8 @@ export default function FlatPage() {
               Flat {flat.flatNo}
             </h1>
             <p className="text-gray-500 flex items-center gap-2 mb-4">
-              <FaMapMarkerAlt className="text-purple-500" /> {flat.location}
+              <FaMapMarkerAlt className="text-purple-500" /> Kuanwala, NH-72 Haridwar Road, Dehradun - 248005
+
             </p>
 
             {/* Status */}
@@ -216,14 +217,7 @@ export default function FlatPage() {
               <SpecCard label="Furnishing" value={flat.furnishing || "N/A"} />
             </div>
 
-            <h2 className="text-lg text-gray-600 font-semibold mb-2">
-              Highlights
-            </h2>
-            <ul className="list-disc list-inside text-gray-700 space-y-1 mb-6">
-              {flat.highlights?.map((h, idx) => (
-                <li key={idx}>{h}</li>
-              ))}
-            </ul>
+          
 
             {/* ✍ Signature Section */}
             <div className="mb-4">

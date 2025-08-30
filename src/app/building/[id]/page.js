@@ -156,7 +156,7 @@ export default function BuildingPage() {
       </div>
 
       {/* ✅ Legend Box - top-right */}
-{/* ✅ Legend - Top Right (no border box, like client reference) */}
+
 {/* ✅ Legend - Top Right (single row, bigger icons & text) */}
 <div className="absolute top-8 right-8 flex items-center gap-6 bg-white/70 backdrop-blur-sm px-5 py-2 rounded-full shadow-lg">
   {/* Available */}
