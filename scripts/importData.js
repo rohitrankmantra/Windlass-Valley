@@ -1,31 +1,49 @@
 import mongoose from "mongoose";
-import * as XLSX from "xlsx";
-import { connectDB } from "../src/lib/mongodb.js";
+import XLSX from "xlsx";
+import dotenv from "dotenv";
 
-// 1️⃣ Connect to MongoDB
-async function connect() {
-  await connectDB(); // ✅ uses your existing connection logic
+dotenv.config({ path: ".env" });
+
+// 1️⃣ MongoDB connection
+async function connectDB() {
+  if (mongoose.connection.readyState >= 1) {
+    console.log("✅ MongoDB already connected");
+    return;
+  }
+
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      dbName: "realestate",
+    });
+    console.log("🚀 MongoDB connected successfully");
+  } catch (error) {
+    console.error("❌ MongoDB connection failed:", error);
+    process.exit(1);
+  }
 }
 
-// 2️⃣ Define Schemas (same as before)
-const flatSchema = new mongoose.Schema({
-  buildingId: String,
-  blockId: String,
-  buildingName: String,
+// 2️⃣ Define Schemas
+const flatSchema = new mongoose.Schema(
+  {
+    buildingId: String,
+    blockId: String,
+    buildingName: String,
 
-  flatNo: { type: String, required: true },
-  bhk: { type: String, required: true },
-  area: String,
-  bedrooms: Number,
-  bathrooms: Number,
-  balcony: Number,
+    flatNo: { type: String, required: true },
+    bhk: { type: String, required: true },
+    area: String,
+    bedrooms: Number,
+    bathrooms: Number,
+    balcony: Number,
 
-  status: { type: String, enum: ["available", "sold"], required: true },
+    status: { type: String, enum: ["available", "sold"], required: true },
 
-  images: { type: [String], default: [] },
-  signatureFile: { type: String },
-  signatureDate: { type: Date },
-}, { timestamps: true });
+    images: { type: [String], default: [] },
+    signatureFile: { type: String },
+    signatureDate: { type: Date },
+  },
+  { timestamps: true }
+);
 
 const blockSchema = new mongoose.Schema({
   id: String,
@@ -40,10 +58,11 @@ const buildingSchema = new mongoose.Schema({
   blocks: [blockSchema],
 });
 
-const Building = mongoose.models.Building || mongoose.model("Building", buildingSchema);
+const Building =
+  mongoose.models.Building || mongoose.model("Building", buildingSchema);
 const Flat = mongoose.models.Flat || mongoose.model("Flat", flatSchema);
 
-// 3️⃣ Excel → JSON
+// 3️⃣ Read Excel
 function readExcel(filePath) {
   const workbook = XLSX.readFile(filePath);
   const sheetName = workbook.SheetNames[0];
@@ -51,26 +70,22 @@ function readExcel(filePath) {
   return XLSX.utils.sheet_to_json(sheet);
 }
 
-// 4️⃣ Transform Excel → DB structure
+// 4️⃣ Transform Excel → DB
 function transformData(excelData) {
   const buildingsMap = {};
   const flats = [];
 
   excelData.forEach((row) => {
-    const project = row["Project"]?.trim();
-    const block = row["Block"]?.trim();
+    // ✅ Mapped to your actual Excel headers
+    const project = row["Sub Project"]?.trim();
+    const block = row["Sub Project"]?.trim(); // no separate block → use Sub Project
     const unitNo = row["Unit No"];
-    const bhk = row["BHK"];
+    const bhk = row["Flat Type"];
     const area = row["Saleable Area Sq Ft."];
-    const status = row["Status"];
-    const bedrooms = row["Bedrooms"];
-    const bathrooms = row["Bathrooms"];
-    const balcony = row["Balcony"];
-    const images = row["Images"] ? row["Images"].split(",") : [];
-    const signatureFile = row["Signature File"];
-    const signatureDate = row["Signature Date"] ? new Date(row["Signature Date"]) : null;
+    const status =
+      row["Status"]?.toLowerCase() === "sold" ? "sold" : "available";
 
-    if (!project || !block || !unitNo) return;
+    if (!project || !unitNo) return;
 
     const buildingId = project.toLowerCase().replace(/\s+/g, "");
     const blockId = block;
@@ -83,10 +98,11 @@ function transformData(excelData) {
         blocks: [],
       };
     }
+
     if (!buildingsMap[buildingId].blocks.find((b) => b.id === blockId)) {
       buildingsMap[buildingId].blocks.push({
         id: blockId,
-        name: `${project} ${block}`,
+        name: project,
         flats: [],
       });
     }
@@ -95,24 +111,24 @@ function transformData(excelData) {
       .find((b) => b.id === blockId)
       .flats.push({
         flatNo: String(unitNo),
-        status: status || "available",
+        status,
         bhk,
       });
 
     flats.push({
       buildingId,
       blockId,
-      buildingName: `${project} ${block}`,
+      buildingName: project,
       flatNo: String(unitNo),
       bhk,
       area: area ? `${area} sqft` : null,
-      bedrooms,
-      bathrooms,
-      balcony,
-      status: status || "available",
-      images,
-      signatureFile,
-      signatureDate,
+      bedrooms: null,
+      bathrooms: null,
+      balcony: null,
+      status,
+      images: [],
+      signatureFile: null,
+      signatureDate: null,
     });
   });
 
@@ -121,9 +137,13 @@ function transformData(excelData) {
 
 // 5️⃣ Import Data
 async function importData() {
-  await connect();
+  await connectDB();
 
   const excelData = readExcel("./windlass.xlsx");
+
+  console.log("🟢 Excel headers:", Object.keys(excelData[0]));
+  console.log("🟢 Sample row:", excelData[0]);
+
   const { buildings, flats } = transformData(excelData);
 
   await Building.deleteMany({});
@@ -131,7 +151,10 @@ async function importData() {
   await Building.insertMany(buildings);
   await Flat.insertMany(flats);
 
+  console.log(`✅ Inserted Buildings: ${buildings.length}`);
+  console.log(`✅ Inserted Flats: ${flats.length}`);
   console.log("🎉 Data Imported Successfully");
+
   mongoose.connection.close();
 }
 
